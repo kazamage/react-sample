@@ -1,5 +1,5 @@
 import { notification, message } from 'antd';
-import { wrapComponent } from '@/components/MultiWindow';
+import { wrapComponent } from '@/components/common/MultiWindow';
 import store from '@/store';
 import actions from '@/actions';
 import { MAX_WORKSPACE, WORKSPACE_INFO_KEY, saveLocalStorage } from '@/utils';

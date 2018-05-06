@@ -27,11 +27,16 @@ const isEmptyConfig = config => {
   return _.isEmpty(content) && _.isEmpty(openPopouts);
 };
 
-const getComponents = manager => {
+const getRootContentItem = manager => {
   if (manager == null || !isInitialised(manager)) {
-    return [];
+    return null;
   }
   const [contentItem] = manager.root.contentItems;
+  return contentItem;
+};
+
+const getComponents = manager => {
+  const contentItem = getRootContentItem(manager);
   if (contentItem == null) {
     return [];
   }
@@ -170,6 +175,9 @@ export default class MultiWindow extends PureComponent {
       }
     });
     this.manager.on('itemDestroyed', item => {
+      if (item.isMaximised) {
+        item.toggleMaximise();
+      }
       if (item.type === 'component') {
         const {
           storageKey: currentStorageKey,
@@ -210,6 +218,13 @@ export default class MultiWindow extends PureComponent {
     const { root } = this.manager;
     if (_.isEmpty(root.contentItems)) {
       root.addChild({ type: 'row', content: [] });
+    } else {
+      const contentItem = getRootContentItem(this.manager);
+      if (contentItem) {
+        [contentItem].concat(contentItem.getItemsByFilter(item => true))
+          .filter(item => item.isMaximised)
+          .forEach(item => item.toggleMaximise());
+      }
     }
     root.contentItems[0].addChild({
       type: 'react-component',
@@ -228,14 +243,23 @@ export default class MultiWindow extends PureComponent {
     if (_.isEmpty(components) && _.isEmpty(popouts)) {
       this.add(name, title, props);
     } else {
+      const contentItem = getRootContentItem(this.manager);
+      if (contentItem) {
+        [contentItem].concat(contentItem.getItemsByFilter(item => true))
+          .filter(item => item.isMaximised)
+          .forEach(item => item.toggleMaximise());
+      }
       components.forEach(component => component.remove());
     }
   }
 
   closeAll = () => {
     this.manager.openPopouts.forEach(popout => popout.close());
-    const [contentItem] = this.manager.root.contentItems;
+    const contentItem = getRootContentItem(this.manager);
     if (contentItem) {
+      [contentItem].concat(contentItem.getItemsByFilter(item => true))
+        .filter(item => item.isMaximised)
+        .forEach(item => item.toggleMaximise());
       const components = contentItem.getItemsByType('component');
       components.forEach(component => component.remove());
     }
@@ -250,6 +274,11 @@ export default class MultiWindow extends PureComponent {
       type,
       content: [],
     });
+    if ([oldElement].concat(oldElement
+      .getItemsByFilter(item => true))
+      .some(item => item.isMaximised)) {
+      return;
+    }
     const stacks = oldElement.getItemsByType('stack');
     if (_.isEmpty(stacks)) {
       const components = oldElement.getItemsByType('component');

@@ -8,7 +8,7 @@ import PlusSquare from 'react-feather/dist/icons/plus-square';
 import Trash2 from 'react-feather/dist/icons/trash-2';
 import GridIcon from 'react-feather/dist/icons/grid';
 import X from 'react-feather/dist/icons/x';
-import MultiWindow from './MultiWindow';
+import MultiWindow from './common/MultiWindow';
 import Home from '@/containers/Home';
 import Grid from '@/containers/Grid';
 import Spreadsheet from '@/containers/Spreadsheet';

@@ -11,7 +11,6 @@ export default class EventEmitter {
       this.listeners.set(eventName, new Set());
     }
     this.listeners.get(eventName).add(listener);
-    console.log(this.listeners);
   }
 
   emit(eventName, ...args) {
@@ -26,7 +25,6 @@ export default class EventEmitter {
     if (this.listeners.has(eventName)) {
       this.listeners.get(eventName).delete(listener);
     }
-    console.log(this.listeners);
   }
 
   off(eventName, listener) {
