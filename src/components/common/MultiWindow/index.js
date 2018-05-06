@@ -174,10 +174,12 @@ export default class MultiWindow extends PureComponent {
         }
       }
     });
-    this.manager.on('itemDestroyed', item => {
+    this.manager.on('beforeItemDestroyed', item => {
       if (item.isMaximised) {
         item.toggleMaximise();
       }
+    });
+    this.manager.on('itemDestroyed', item => {
       if (item.type === 'component') {
         const {
           storageKey: currentStorageKey,
