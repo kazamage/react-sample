@@ -1,0 +1,10 @@
+.content-body.home {
+  .button-group {
+    display: flex;
+    .ant-btn {
+      &:not(:last-of-type) {
+        margin-right: 5px;
+      }
+    }
+  }
+}
