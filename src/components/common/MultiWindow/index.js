@@ -63,6 +63,15 @@ const findPopouts = (manager, name) => {
   });
 };
 
+const unmaximise = manager => {
+  const contentItem = getRootContentItem(manager);
+  if (contentItem) {
+    [contentItem].concat(contentItem.getItemsByFilter(item => true))
+      .filter(item => item.isMaximised)
+      .forEach(item => item.toggleMaximise());
+  }
+};
+
 export default class MultiWindow extends PureComponent {
 
   componentDidMount() {
@@ -216,71 +225,48 @@ export default class MultiWindow extends PureComponent {
     this.manager.init();
   }
 
-  add = (name, title = name, props = {}) => {
+  add = (component, title = component, props = {}) => {
     const { root } = this.manager;
-    if (_.isEmpty(root.contentItems)) {
+    if (_.isEmpty(root.contentItems) || root.contentItems[0] == null) {
       root.addChild({ type: 'row', content: [] });
     } else {
-      const contentItem = getRootContentItem(this.manager);
-      if (contentItem) {
-        [contentItem].concat(contentItem.getItemsByFilter(item => true))
-          .filter(item => item.isMaximised)
-          .forEach(item => item.toggleMaximise());
-      }
+      unmaximise(this.manager);
     }
     root.contentItems[0].addChild({
       type: 'react-component',
-      component: name,
-      title: title,
+      component,
+      title,
       props,
     });
   }
 
   toggle = (name, title = name, props = {}) => {
     const popouts = findPopouts(this.manager, name);
-    if (!_.isEmpty(popouts)) {
-      popouts.forEach(popout => popout.close());
-    }
+    popouts.forEach(popout => popout.close());
     const components = findComponents(this.manager, name);
     if (_.isEmpty(components) && _.isEmpty(popouts)) {
       this.add(name, title, props);
     } else {
-      const contentItem = getRootContentItem(this.manager);
-      if (contentItem) {
-        [contentItem].concat(contentItem.getItemsByFilter(item => true))
-          .filter(item => item.isMaximised)
-          .forEach(item => item.toggleMaximise());
-      }
+      unmaximise(this.manager);
       components.forEach(component => component.remove());
     }
   }
 
   closeAll = () => {
-    this.manager.openPopouts.forEach(popout => popout.close());
-    const contentItem = getRootContentItem(this.manager);
-    if (contentItem) {
-      [contentItem].concat(contentItem.getItemsByFilter(item => true))
-        .filter(item => item.isMaximised)
-        .forEach(item => item.toggleMaximise());
-      const components = contentItem.getItemsByType('component');
-      components.forEach(component => component.remove());
-    }
+    getPopouts(this.manager).forEach(popout => popout.close());
+    getComponents(this.manager).forEach(component => component.remove());
   }
 
   reorder = type => {
-    const [oldElement] = this.manager.root.contentItems;
-    if (oldElement == null) {
+    const oldElement = getRootContentItem(this.manager);
+    if (oldElement == null || [oldElement].concat(oldElement
+      .getItemsByFilter(item => true)).some(item => item.isMaximised)) {
       return;
     }
     const newElement = this.manager.createContentItem({
       type,
       content: [],
     });
-    if ([oldElement].concat(oldElement
-      .getItemsByFilter(item => true))
-      .some(item => item.isMaximised)) {
-      return;
-    }
     const stacks = oldElement.getItemsByType('stack');
     if (_.isEmpty(stacks)) {
       const components = oldElement.getItemsByType('component');

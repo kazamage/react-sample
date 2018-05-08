@@ -21,7 +21,7 @@ export default class BarChart extends Component {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
-            <Tooltip />
+            <Tooltip cursor={{ fill: '#000', fillOpacity: '0.8' }} />
             <Legend />
             <Bar dataKey="pv" stackId="a" fill="#8884d8" />
             <Bar dataKey="uv" stackId="a" fill="#82ca9d" />

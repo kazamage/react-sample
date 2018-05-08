@@ -68,16 +68,6 @@
   .ant-layout-header {
     background: #3b3b3b;
   }
-  .trigger {
-    font-size: 18px;
-    line-height: 64px;
-    padding: 0 24px;
-    cursor: pointer;
-    transition: color .3s;
-    &:hover {
-      color: #1890ff;
-    }
-  }
 }
 
 .react-grid-item:not(.react-grid-placeholder) {
@@ -108,22 +98,22 @@
       border-left: 2px solid #4b4b4b;
       .ant-tag {
         background-color: rgba(255, 255, 255, .1);
-        border: 1px solid rgba(255, 255, 255, .15);
-        color: rgba(255, 255, 255, .7);
+        border: 1px solid rgba(255, 255, 255, .12);
+        color: rgba(255, 255, 255, .4);
         &:hover {
           opacity: .9;
           color: #fff;
-          .anticon-cross {
-            color: #fff;
-          }
         }
         &.active {
-          background-color: rgba(255, 255, 255, .2);
-          border: 1px solid rgba(255, 255, 255, .25);
-          color: rgba(255, 255, 255, .9);
+          background-color: rgba(255, 255, 255, .14);
+          border: 1px solid rgba(255, 255, 255, .16);
+          color: #fff;
         }
         .anticon-cross {
-          color: rgba(255, 255, 255, .7);
+          color: rgba(255, 255, 255, .4);
+          &:hover {
+            color: #fff;            
+          }
         }
       }
     }
@@ -138,9 +128,9 @@
         padding-right: 5px;
       }
       a {
-        color: rgba(255, 255, 255, .4);
+        color: #808080;
         &:hover {
-          color: rgba(255, 255, 255, 1);
+          color: #fff;
         }
       }
     }

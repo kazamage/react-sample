@@ -122,7 +122,7 @@ class ResponsiveContainer extends Component {
     return (
       <div
         id={id}
-        className={classNames('recharts-responsive-container', className)}
+        className={classNames('responsive-container', className)}
         style={style}
         ref={(node) => { this.container = node; }}
       >

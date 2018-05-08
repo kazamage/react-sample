@@ -16,8 +16,10 @@ export default class AreaChart extends Component {
     return (
       <div className="container">
         <ResponsiveContainer debounce={1}>
-          <RAreaChart data={this.props.data}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+          <RAreaChart
+            data={this.props.data}
+            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+          >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
