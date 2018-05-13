@@ -1,3 +1,26 @@
+.lm_header {
+  .lm_tabs {
+    display: block;
+    max-width: calc(100% - 100px);
+    .lm_tab {
+      display: block;    
+      max-width: 100%;
+      .lm_title {
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+  .lm_controls {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 30px;
+  }
+}
+
+
 .lm_popin .lm_bg {
   background: #000;
   opacity: .4;

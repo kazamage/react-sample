@@ -216,7 +216,13 @@ class Content extends Component {
         onItemDestroyed={this.props.onItemDestroyed}
         onChangeStorageKey={this.props.onChangeStorageKey}
         ref={multiWindow => this.multiWindow = multiWindow}
-        config={{ content: [{ type: 'row', cotent: [] }] }}
+        config={{
+          content: [{ type: 'row', cotent: [] }],
+          dimensions: {
+            minItemHeight: 80,
+            minItemWidth: 160,
+          },
+        }}
         components={[
           { name: 'Home', component: Home },
           { name: 'Grid', component: Grid },
